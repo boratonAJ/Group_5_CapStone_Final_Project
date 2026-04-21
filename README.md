@@ -248,3 +248,7 @@ Track and review these risks during execution:
 ## Intended Use Notice
 
 This work is a capstone research implementation for decision support and governance study. It must not be used as an autonomous lending decision engine.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
