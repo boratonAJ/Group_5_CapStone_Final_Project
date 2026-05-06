@@ -1,0 +1,19 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# IDE/editor settings
+.vscode/
+
+# OS files
+.DS_Store
+
+# Git metadata (never commit nested .git dirs)
+.git/
