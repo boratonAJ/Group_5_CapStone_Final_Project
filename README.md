@@ -459,7 +459,7 @@ Before approving this model for deployment, verify:
 
 ---
 
-## 🚀 Quick Start for Judges/Examiners
+## Quick Start for Judges/Examiners
 
 ### For Rapid Q1–Q5 Audit Review (15 min)
 
