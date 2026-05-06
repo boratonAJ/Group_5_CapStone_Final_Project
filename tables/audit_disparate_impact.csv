@@ -1,0 +1,28 @@
+race,risk_tier,n_samples,fpr,fnr,approval_rate
+Asian,Low,9621,0.0,1.0,0.3392
+Asian,Medium,16113,0.5888,0.2422,0.7469
+Asian,High,35471,1.0,0.0,0.9264
+White,Low,192438,0.0,1.0,0.4735
+White,Medium,293567,0.5432,0.3065,0.8238
+White,High,294231,1.0,0.0,0.9446
+Black or African American,Low,37156,0.0,1.0,0.3267
+Black or African American,Medium,37697,0.5373,0.3316,0.7071
+Black or African American,High,34764,1.0,0.0,0.8783
+Race Not Available,Low,50978,0.0,1.0,0.378
+Race Not Available,Medium,69086,0.5406,0.2949,0.7418
+Race Not Available,High,79860,1.0,0.0,0.9279
+Joint,Low,4287,0.0,1.0,0.3975
+Joint,Medium,7583,0.5696,0.3008,0.7916
+Joint,High,12913,1.0,0.0,0.9435
+American Indian or Alaska Native,Low,3233,0.0,1.0,0.3102
+American Indian or Alaska Native,Medium,2766,0.5299,0.3071,0.7216
+American Indian or Alaska Native,High,2455,1.0,0.0,0.9141
+2 or more minority races,Low,1006,0.0,1.0,0.2853
+2 or more minority races,Medium,846,0.5374,0.2663,0.6525
+2 or more minority races,High,1088,1.0,0.0,0.886
+Native Hawaiian or Other Pacific Islander,Low,995,0.0,1.0,0.3266
+Native Hawaiian or Other Pacific Islander,Medium,906,0.524,0.3272,0.6545
+Native Hawaiian or Other Pacific Islander,High,744,1.0,0.0,0.8804
+Free Form Text Only,Low,133,0.0,1.0,0.2481
+Free Form Text Only,Medium,86,0.5217,0.4,0.4651
+Free Form Text Only,High,57,1.0,0.0,0.7544

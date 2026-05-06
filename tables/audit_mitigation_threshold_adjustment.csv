@@ -1,0 +1,6 @@
+threshold,overall_approval_rate,white_approval_rate,min_air,min_air_passes_80_rule,lender_risk_fpr
+0.4,0.748,0.7534,0.6877,✗ NO,0.1323
+0.35,0.8026,0.8094,0.7385,✗ NO,0.1477
+0.3,0.8471,0.8546,0.8013,✓ YES,0.1626
+0.25,0.8829,0.89,0.863,✓ YES,0.1768
+0.2,0.913,0.9193,0.8965,✓ YES,0.1909

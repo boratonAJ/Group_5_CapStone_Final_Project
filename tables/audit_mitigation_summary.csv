@@ -1,0 +1,5 @@
+Mitigation,Mechanism,Min AIR,Fairness,AUC,Lender Risk,Implementation
+None (Baseline),Current threshold (0.2575) + all features,0.606,✗ FAILS 80% rule,0.813,Low (high precision),Status quo
+#1: Threshold Adjust,Raise threshold to 0.2 for demographic parity,≥ 0.80,✓ PASSES 80% rule,0.813,High (more FP),Immediate (no retraining)
+#2: Remove Proxies,Remove ,Unknown (needs retraining),✓ Likely improved,0.788,Medium (less correlation),Requires full retraining
+#1 + #2 Combined,Remove proxies + optimize threshold,Unknown (needs retraining),✓ Best fairness,0.788,Medium-High,Full retraining + tuning

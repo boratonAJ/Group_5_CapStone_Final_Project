@@ -1,0 +1,10 @@
+attribute,group,is_reference_x,n,threshold,approval_rate,air,fpr,fnr,precision,recall,ece,is_reference_y,me,smd
+Race,2 or more minority races,False,2940,0.5,0.5616,0.8942,0.248,0.2407,0.8292,0.7593,0.0848,False,-0.0437,-0.1805
+Race,American Indian or Alaska Native,False,8454,0.5,0.5022,0.7996,0.1928,0.3082,0.8542,0.6918,0.1211,False,-0.0785,-0.3292
+Race,Asian,False,61205,0.5,0.7678,1.2225,0.3842,0.1283,0.8933,0.8717,0.1156,False,0.0836,0.3793
+Race,Black or African American,False,109617,0.5,0.5338,0.8499,0.2522,0.3026,0.8263,0.6974,0.1035,False,-0.0552,-0.2361
+Race,Free Form Text Only,False,276,0.5,0.3804,0.6057,0.2375,0.4224,0.6381,0.5776,0.0674,False,-0.1222,-0.5353
+Race,Joint,False,24783,0.5,0.7267,1.1571,0.333,0.1765,0.9096,0.8235,0.1616,False,0.062,0.2767
+Race,Native Hawaiian or Other Pacific Islander,False,2645,0.5,0.4941,0.7867,0.236,0.3299,0.8064,0.6701,0.0964,False,-0.0758,-0.3229
+Race,Race Not Available,False,199924,0.5,0.6284,1.0005,0.2785,0.2377,0.8774,0.7623,0.1406,False,0.0018,0.0079
+Race,White,True,780236,0.5,0.6281,1.0,0.2621,0.2705,0.9094,0.7295,0.1947,True,0.0,0.0

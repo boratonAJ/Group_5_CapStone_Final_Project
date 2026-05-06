@@ -9,21 +9,19 @@
 
 ## 1. System Description
 
-This system is a binary classification model trained on the 2024 HMDA Loan/Application Records (LAR).  
-It predicts the likelihood that a mortgage application results in **loan origination or approval**  
-(label = 1) versus a **formal denial** (label = 0).
+We describe this system as a binary classification model trained on the 2024 HMDA Loan/Application Records (LAR). It predicts whether a mortgage application results in **loan origination or approval** (label = 1) versus a **formal denial** (label = 0).
 
-The model is intended to support mortgage credit-decision review workflows in a regulated fair-lending context. It is **not** a substitute for human underwriting judgment and is **not** designed to replace legally required adverse action notices.
+We position the model as decision support for mortgage credit workflows in a regulated fair-lending context. It is **not** a substitute for human underwriting judgment and is **not** designed to replace legally required adverse action notices.
 
 ---
 
 ## 2. Label Definition
 
-| Raw `action_taken` | Meaning | Model Label | Retained |
+| Raw `action_taken` | Meaning | Model Label | Included |
 |---|---|---|---|
-| 1 | Loan originated | 1 | ✓ |
-| 2 | Application approved, not accepted | 1 | ✓ |
-| 3 | Application denied by financial institution | 0 | ✓ |
+| 1 | Loan originated | 1 | Included |
+| 2 | Application approved, not accepted | 1 | Included |
+| 3 | Application denied by financial institution | 0 | Included |
 | 4 | Application withdrawn by applicant | — | Filtered out |
 | 5 | File closed for incompleteness | — | Filtered out |
 | 6 | Purchased loan | — | Filtered out |
@@ -38,7 +36,7 @@ The model is intended to support mortgage credit-decision review workflows in a 
 
 ## 3. Optimization Objective
 
-The model is optimized to maximize AUC-ROC on the validation set subject to the constraint that Adverse Impact Ratios remain ≥ 0.80 across all protected groups defined by `derived_race`, `derived_sex`, and `derived_ethnicity`.
+We optimize the model to maximize AUC-ROC on the validation set subject to the constraint that Adverse Impact Ratios remain ≥ 0.80 across all protected groups defined by `derived_race`, `derived_sex`, and `derived_ethnicity`.
 
 **A model that achieves higher AUC at the cost of AIR < 0.80 for any material protected group is not considered acceptable for deployment under this system card.**
 
@@ -56,7 +54,7 @@ This reflects the Lecture 01 principle that the optimization objective must inco
 | Distributional drift | Model degrades silently as population shifts | Undetected fairness and performance degradation | High | Minority applicants + institution |
 | Calibration gap | Model probabilities are biased for a subgroup | Miscalibrated risk scores affect downstream decisions | Medium | Subgroup |
 
-**Asymmetric harm note:** False negatives are more severe than false positives in the fair-lending context, particularly when FNR is elevated for racial or ethnic minority groups. This asymmetry should inform threshold selection.
+**Asymmetric harm note:** We treat false negatives as more severe than false positives in the fair-lending context, particularly when FNR is elevated for racial or ethnic minority groups. This asymmetry informs threshold selection.
 
 ---
 
@@ -94,7 +92,7 @@ This reflects the Lecture 01 principle that the optimization objective must inco
 
 ## 7. Out-of-Scope Uses
 
-This model is **NOT** designed or validated for:
+We do **NOT** design or validate this model for:
 - Pricing or interest-rate setting
 - Post-origination default prediction
 - Pre-screening or pre-qualification before a formal HMDA-reportable application
@@ -117,4 +115,4 @@ This model is **NOT** designed or validated for:
 
 ## 9. Decision Log Reference
 
-All design decisions (label construction, leakage removal, split strategy, threshold selection) are recorded in `docs/decision_log.md`. See that document for the reasoning behind each material choice.
+We record all design decisions (label construction, leakage removal, split strategy, threshold selection) in `docs/decision_log.md`. That document contains the reasoning behind each material choice.

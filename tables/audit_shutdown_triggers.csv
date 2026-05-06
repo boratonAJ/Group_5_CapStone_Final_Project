@@ -1,0 +1,7 @@
+Trigger ID,Trigger Name,Condition,Response,Evidence,Decision Maker,Time to Decision
+SHUT-1,Regulatory Investigation,CFPB/DOJ/State AG issues CID or opens formal investigation,IMMEDIATE shutdown; halt model use within 48h,Regulatory letter/email/public notice,Chief Risk Officer + General Counsel,Same day
+SHUT-2,AIR Collapse,AIR < 0.75 for any protected group in 2+ consecutive months,URGENT: 30-day review; pause model if unfixable,Monthly AIR monitoring report,Compliance Officer + Risk Committee,1 week investigation + 3 weeks remediation window
+SHUT-3,Loan Loss Breach,Observed loss rate exceeds risk appetite by >50 basis points,Quarterly review; assess AUC drift; consider retrain or shutdown,Finance loss tracking report,Risk Committee,Quarterly review meeting
+SHUT-4,Demographic Drift,Wasserstein distance > 0.05 (annual check),MANDATORY retraining; validate fairness metrics,Annual demographic composition analysis,Data Science Lead,Annual (Q4 review)
+SHUT-5,Public/Media Investigation,"News article, civil rights complaint, or HMDA data analysis shows disparity",EMERGENCY audit; external review; public response if needed,"News article, complaint letter, data publication",Chief Risk Officer + Communications,48 hours to assess; 30 days to respond
+SHUT-6,Model Performance Collapse,AUC drops below 0.75 (currently 0.8127),Investigate; identify root cause; retrain or deprecate,Quarterly AUC recompute on holdout test set,Data Science Lead + Risk,2 weeks investigation; retraining within 30 days

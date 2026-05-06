@@ -1,0 +1,10 @@
+Task ID,Task,Owner,Status,Verification,Impact if Not Done
+DEP-001,Threshold Implementation in Production,Data Engineering,REQUIRED,Scoring engine logs confirm P(default) < 0.20 threshold,Model violates agreed fairness standard
+DEP-002,Risk Appetite Board Approval,Risk Committee,REQUIRED,"Board resolution dated, filed in governance record",Deployment lacks executive accountability
+DEP-003,Monitoring Dashboard Deployment,Analytics / Compliance,REQUIRED,Monthly AIR report available by [DEPLOYMENT DATE + 30 days],Cannot detect AIR violations; regulatory risk exposure
+DEP-004,GitHub Audit Record Setup,Data Science + DevOps,REQUIRED,Repo on GitHub org account; README + tags present; branch protection enabled,No authoritative audit trail for examiner requests
+DEP-005,Internal Stakeholder Training,Compliance + Data Science,REQUIRED,Training attendance log; Compliance sign-off,Loan officers may override/misuse model; reputational risk
+DEP-006,Legal/Compliance Sign-Off,General Counsel,REQUIRED,Sign-off letter on file; deployment date locked,Legal liability; no defense if challenged
+MON-001,Monthly AIR Audit,Analytics,ONGOING,AIR report published monthly with alert flags,"Regulatory non-compliance (ECOA, HMDA)"
+MON-002,Quarterly Demographic Drift Test,Risk / Analytics,ONGOING,Wasserstein distance computed; drift report generated,Model degradation not detected; continues using stale decision boundary
+MON-003,Annual Model Retraining Decision,Data Science,ANNUAL,Retraining validation report or 'no retraining needed' decision documented,Model becomes outdated; AUC/fairness metrics drift

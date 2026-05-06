@@ -1,17 +1,33 @@
 # HMDA 2024 Responsible ML Audit: Application-Time Classifier
 
 **Course:** DNSC 6330 — Responsible Machine Learning | George Washington University  
-**Dataset:** 2024 HMDA Loan/Application Records (LAR) — ~2.4M records, 1.19M train / 1.19M val / 1.19M test  
+**Dataset:** 2024 HMDA Loan/Application Records (LAR) — ~2.4M records, split into 1.19M train / 1.19M val / 1.19M test rows  
 **Audit Framework:** Lecture 06 three-pillar standard —  
 *Measurement before opinion · Diagnostics before remediation · Documentation before deployment*
 
-**Status:** ✅ **Complete — Q1–Q5 Audit Defensibility Framework**
+**Status:** **COMPLETE — Q1–Q5 Audit Defensibility Framework**
+
+## Scan to Visit the Repository
+
+<p align="center">
+   <a href="https://github.com/boratonAJ/Group_5_CapStone_Final_Project">
+      <img src="figures/repo_qr.png" alt="QR code linking to the Group_5_CapStone_Final_Project repository" width="160" />
+   </a>
+</p>
+
+Scan this code to open the repository directly on GitHub.
 
 ---
 
+## Executive Summary
+
+We built this repository as a fair-lending audit record for an application-time mortgage approval classifier trained on 2024 HMDA data. The objective is not to optimize accuracy in isolation, but to show whether the model can be deployed responsibly in a regulated credit context.
+
+We retain protected attributes for fairness analysis while excluding them from model training. The resulting audit package documents model performance, subgroup disparities, mitigation testing, and deployment governance in one place.
+
 ## Deployment Recommendation
 
-> **DEPLOY WITH CONDITIONS** ✅
+> **DEPLOY WITH CONDITIONS**
 >
 > GBM mortgage approval model achieves AUC 0.8127 (test) with identified fairness violations remediable via threshold adjustment. Recommend deployment at threshold 0.20 (demographic parity optimized), which achieves AIR ≥ 0.80 across all protected groups, contingent on: (1) threshold implementation + risk appetite board approval, (2) monthly AIR monitoring infrastructure, (3) GitHub audit record as governance artifact, (4) identified 6 model shutdown triggers.
 
@@ -20,16 +36,11 @@
 
 ---
 
-## What This Project Is
+## Project Overview
 
-This repository is a **fair-lending audit record** for a binary classification model trained
-on 2024 HMDA data. It predicts whether a mortgage application will be originated or
-approved (`y=1`) versus denied (`y=0`). The rebuilt schema keeps direct protected attributes
-available for fairness analysis while excluding them from model training.
+We use this repository to document a binary classification model trained on 2024 HMDA data. The model predicts whether a mortgage application will be originated or approved (`y=1`) versus denied (`y=0`).
 
-This is not an accuracy optimization project. Every component — the data pipeline, the model,
-the fairness analysis, the robustness tests, and the deployment recommendation — is structured
-to answer the question: *can this model be responsibly deployed in a regulated fair-lending context?*
+The surrounding audit workflow keeps direct protected attributes available for fairness analysis while excluding them from model training. Every component, including the data pipeline, model training, fairness analysis, robustness testing, and deployment recommendation, supports one question: can this model be responsibly deployed in a regulated fair-lending context?
 
 ---
 
@@ -57,55 +68,55 @@ to answer the question: *can this model be responsibly deployed in a regulated f
 
 ### Q1 — Optimization Objective
 - **Metric:** F1 score @ threshold 0.2575 (test F1 = 0.8861)
-- **Business Rationale:** Balance lender precision (minimize defaults) with approval volume
-- **Trade-offs:** Optimization benefits lenders (high precision) while harming minorities (38.2% approval gap) and low-risk applicants (129K wrongful denials estimated)
+- **Business Rationale:** We balance lender precision with approval volume.
+- **Trade-offs:** The optimized threshold benefits lenders through higher precision while harming minorities (38.2% approval gap) and low-risk applicants (129K wrongful denials estimated).
 - **Evidence:** [`tables/metrics_table_final.csv`](tables/metrics_table_final.csv), [`notebooks/03_model_audit.ipynb`](notebooks/03_model_audit.ipynb#Q1)
 
 ### Q3 — Subgroup Error Measurement (Fairness Violations)
 | Group | Approval Rate | AIR | Status | Impact |
 |---|---|---|---|---|
 | White (reference) | 62.8% | 1.000 | Reference | — |
-| Free Form Text Only | 24.7% | **0.606** | ❌ FAILS 80% rule | 39% approval gap |
-| Native Hawaiian | 49.1% | **0.787** | ⚠️ BORDERLINE | 21% approval gap |
-| American Indian | 50.2% | **0.800** | ⚠️ BORDERLINE (legal threshold) | 20% approval gap |
-| Black or African American | 38.9% | 0.619 | ❌ FAILS 80% rule | 35% gap |
-| Hispanic or Latino | 54.7% | 0.871 | ✓ Passes | — |
-| Female | 55.6% | 0.885 | ✓ Passes | — |
-| **Black × Female (intersectional)** | **28.5%** | **0.453** | ❌ CRITICAL | 54% gap |
+| Free Form Text Only | 24.7% | **0.606** | **FAILS 80% RULE** | 39% approval gap |
+| Native Hawaiian | 49.1% | **0.787** | **WARNING** | 21% approval gap |
+| American Indian | 50.2% | **0.800** | **WARNING (LEGAL THRESHOLD)** | 20% approval gap |
+| Black or African American | 38.9% | 0.619 | **FAILS 80% RULE** | 35% gap |
+| Hispanic or Latino | 54.7% | 0.871 | **PASS** | — |
+| Female | 55.6% | 0.885 | **PASS** | — |
+| **Black × Female (intersectional)** | **28.5%** | **0.453** | **CRITICAL** | 54% gap |
 
-**Key Finding:** 3 AIR violations detected at baseline threshold (0.50); intersectional disparities most severe  
+**Key Finding:** We identified 3 AIR violations at the baseline threshold (0.50); intersectional disparities are the most severe.  
 **Evidence:** [`tables/audit_air_by_race.csv`](tables/audit_air_by_race.csv), [`tables/audit_air_violations.csv`](tables/audit_air_violations.csv), [`figures/audit_air_disparate_impact.png`](figures/audit_air_disparate_impact.png)
 
 ### Q4 — Residual Risks & Mitigation
 **Mitigation #1 — Threshold Adjustment (EFFECTIVE):**
-- Raise threshold from 0.50 → **0.20** to achieve demographic parity
-- Result: All AIR values ≥ 0.80; Free Form Text improves 0.606 → 0.82
-- Trade-off: Overall approval rate increases 62.8% → 91.3%; lender FPR increases +15-25%
-- Cost-benefit: Lender risk absorption justified by ECOA compliance & regulatory alignment
+- We raise the threshold from 0.50 → **0.20** to improve demographic parity.
+- Result: All AIR values reach ≥ 0.80; Free Form Text improves 0.606 → 0.82.
+- Trade-off: Overall approval rate increases 62.8% → 91.3%; lender FPR increases +15-25%.
+- Cost-benefit: The additional lender risk is justified by ECOA compliance and regulatory alignment.
 - Evidence: [`tables/audit_mitigation_threshold_adjustment.csv`](tables/audit_mitigation_threshold_adjustment.csv), [`figures/audit_before_after_mitigation.png`](figures/audit_before_after_mitigation.png)
 
 **Mitigation #2 — Feature Removal (DEFERRED):**
-- Remove proxy features: `census_tract`, `tract_minority_population_percent`
-- Estimated impact: AUC drops 0.8127 → 0.788 (-2.5%); fairness likely improves
-- Status: Deferred to next iteration; requires full model retraining
+- We would remove proxy features such as `census_tract` and `tract_minority_population_percent`.
+- Estimated impact: AUC drops 0.8127 → 0.788 (-2.5%); fairness likely improves.
+- Status: Deferred to the next iteration; full model retraining is required.
 - Evidence: [`tables/audit_mitigation_summary.csv`](tables/audit_mitigation_summary.csv)
 
 **Named Residual Risks (5 total):**
-1. **Reduced Predictive Power** — FPR +15-25% from threshold adjustment; acceptable if monitored monthly
-2. **Remaining Correlated Features** — Income, DTI may still encode racial bias; requires quarterly correlation audits
-3. **Data Quality Issues** — Self-reported income/employment varies by demographic; track completeness by group
-4. **Future Demographic Drift** — Model degradation ~1-2% AUC/year; annual retraining mandatory
-5. **Intersectional Disparities** — Race × sex combinations may underperform; quarterly intersectional audits required
+1. **Reduced Predictive Power** — FPR +15-25% from threshold adjustment; this is acceptable only if monitored monthly.
+2. **Remaining Correlated Features** — Income and DTI may still encode racial bias; quarterly correlation audits are required.
+3. **Data Quality Issues** — Self-reported income and employment vary by demographic group; completeness should be tracked by group.
+4. **Future Demographic Drift** — Model degradation of ~1-2% AUC/year is expected; annual retraining is mandatory.
+5. **Intersectional Disparities** — Race × sex combinations may underperform; quarterly intersectional audits are required.
 
 **Evidence:** [`tables/audit_residual_risks.csv`](tables/audit_residual_risks.csv), [`tables/audit_acceptance_conditions.txt`](tables/audit_acceptance_conditions.txt)
 
 ### Q5 — Deployment Defensibility & Governance
 **Conditions for Deployment (All Required Before Go-Live):**
-1. ✅ Threshold 0.20 implemented in production scoring engine; documented business justification for ECOA compliance
-2. ✅ Risk appetite board approval with updated loan loss reserve (+2-5% of annual originations)
-3. ✅ Monitoring infrastructure: Real-time AIR dashboard with monthly audits; alerts if AIR < 0.75
-4. ✅ GitHub audit record established as governance artifact; branch protection enabled; monthly monitoring logs committed
-5. ✅ Internal stakeholders trained (compliance, risk, loan officers); legal/compliance sign-off secured
+1. We implement threshold 0.20 in the production scoring engine and document the ECOA justification.
+2. We obtain risk appetite board approval with an updated loan loss reserve (+2-5% of annual originations).
+3. We deploy monitoring infrastructure with a real-time AIR dashboard, monthly audits, and alerts if AIR < 0.75.
+4. We maintain the GitHub audit record as a governance artifact, enable branch protection, and commit monthly monitoring logs.
+5. We train internal stakeholders across compliance, risk, and lending, and secure legal/compliance sign-off.
 
 **Model Shutdown Triggers (6 Escalation Paths):**
 | Trigger | Condition | Response | Timeline |
@@ -166,7 +177,7 @@ Full governance framework: [`tables/audit_shutdown_triggers.csv`](tables/audit_s
 ## Repository Structure
 
 ```
-hmda-capstone-responsible/
+Group_5_CapStone_Final_Project/
 ├── notebooks/                      <- Analysis notebooks — Q1–Q5 audit complete
 │   ├── 00_Load_data.ipynb         <- Raw data loading and EDA
 │   ├── 01_data_prep.ipynb         <- Data pipeline: labels, leakage removal, feature engineering
@@ -236,13 +247,13 @@ pip install -r requirements.txt
 
 ### 2. Data Setup
 
-Place `2024_lar.zip` in the **parent directory** of `hmda-capstone/` (i.e., next to the
-`hmda-capstone/` folder). The notebook paths assume this layout:
+Place `2024_lar.zip` in the **parent directory** of `Group_5_CapStone_Final_Project/` (that is, next to the
+`Group_5_CapStone_Final_Project/` folder). The notebook paths assume this layout:
 
 ```
 Responsible Machine Learning/
 ├── 2024_lar.zip          <- Place the raw data here
-└── hmda-capstone/        <- This project
+└── Group_5_CapStone_Final_Project/        <- This project
 ```
 
 ### 3. Run All Notebooks In Order
@@ -271,7 +282,7 @@ Responsible Machine Learning/
 ### 4. Run Unit Tests
 
 ```bash
-cd hmda-capstone-responsible
+cd Group_5_CapStone_Final_Project
 python -m pytest tests/ -v
 ```
 
@@ -281,13 +292,13 @@ Expected: **2 passed** (test_labels.py, test_leakage.py)
 
 | Document | Description | Path | Status |
 |---|---|---|---|
-| System Card | System description, stakeholders, failure modes, defined HMDA compliance | [`docs/00_system_card.md`](docs/00_system_card.md) | ✅ Complete |
-| Model Card | Model performance, limitations, fairness metrics, known risks | [`docs/01_model_card.md`](docs/01_model_card.md) | ✅ Complete |
-| Decision Log | All design decisions (objective, threshold, feature engineering) with rationale | [`docs/decision_log.md`](docs/decision_log.md) | ✅ Complete |
-| Residual Risk Register | Known risks (bias, data quality, demographic drift) with severity, owner, mitigation | [`docs/residual_risk_register.md`](docs/residual_risk_register.md) | ✅ Complete |
-| Security Assessment | Threat model (income gaming, model drift, access control), mitigations | [`docs/06_security_residual_risk.md`](docs/06_security_residual_risk.md) | ✅ Complete |
-| **Deployment Recommendation** | **Final Q1–Q5 audit recommendation: DEPLOY WITH CONDITIONS** | [`docs/07_deployment_recommendation.md`](docs/07_deployment_recommendation.md) | ✅ **COMPLETE** |
-| **Audit Notebook (Q1–Q5)** | **Primary evidence source: 33 cells, all executed; quantified fairness findings + governance** | [`notebooks/03_model_audit.ipynb`](notebooks/03_model_audit.ipynb) | ✅ **COMPLETE** |
+| System Card | System description, stakeholders, failure modes, defined HMDA compliance | [`docs/00_system_card.md`](docs/00_system_card.md) | COMPLETE |
+| Model Card | Model performance, limitations, fairness metrics, known risks | [`docs/01_model_card.md`](docs/01_model_card.md) | COMPLETE |
+| Decision Log | All design decisions (objective, threshold, feature engineering) with rationale | [`docs/decision_log.md`](docs/decision_log.md) | COMPLETE |
+| Residual Risk Register | Known risks (bias, data quality, demographic drift) with severity, owner, mitigation | [`docs/residual_risk_register.md`](docs/residual_risk_register.md) | COMPLETE |
+| Security Assessment | Threat model (income gaming, model drift, access control), mitigations | [`docs/06_security_residual_risk.md`](docs/06_security_residual_risk.md) | COMPLETE |
+| **Deployment Recommendation** | **Final Q1–Q5 audit recommendation: DEPLOY WITH CONDITIONS** | [`docs/07_deployment_recommendation.md`](docs/07_deployment_recommendation.md) | **COMPLETE** |
+| **Audit Notebook (Q1–Q5)** | **Primary evidence source: 33 cells, all executed; quantified fairness findings + governance** | [`notebooks/03_model_audit.ipynb`](notebooks/03_model_audit.ipynb) | **COMPLETE** |
 
 ---
 
@@ -334,10 +345,10 @@ Expected: **2 passed** (test_labels.py, test_leakage.py)
 
 | # | Question | Evidence | Location | Status |
 |---|---|---|---|---|
-| **Q1** | **What is the model optimizing for? What are the trade-offs?** | F1 metric @ 0.2575 threshold; benefits lenders (precision) vs. harms minorities (38.2% approval gap) | [`notebooks/03_model_audit.ipynb#Q1`](notebooks/03_model_audit.ipynb#Q1) | ✅ COMPLETE |
-| **Q3** | **Are outcomes equitable across protected groups?** | AIR violations detected: Free Form Text 0.606, Native Hawaiian 0.787, American Indian 0.800; Black women 65% vs. White men 88% | [`notebooks/03_model_audit.ipynb#Q3`](notebooks/03_model_audit.ipynb#Q3) | ✅ COMPLETE |
-| **Q4** | **What mitigations were tried and did they work?** | Threshold adjustment (0.20) remediates AIR to ≥0.80; Feature removal deferred; 5 residual risks named | [`notebooks/03_model_audit.ipynb#Q4`](notebooks/03_model_audit.ipynb#Q4) | ✅ COMPLETE |
-| **Q5** | **Should this model be deployed?** | **DEPLOY WITH CONDITIONS** (threshold 0.20, monitoring, GitHub governance); 6 shutdown triggers defined | [`notebooks/03_model_audit.ipynb#Q5`](notebooks/03_model_audit.ipynb#Q5) | ✅ **COMPLETE** |
+| **Q1** | **What is the model optimizing for? What are the trade-offs?** | F1 metric @ 0.2575 threshold; benefits lenders (precision) vs. harms minorities (38.2% approval gap) | [`notebooks/03_model_audit.ipynb#Q1`](notebooks/03_model_audit.ipynb#Q1) | COMPLETE |
+| **Q3** | **Are outcomes equitable across protected groups?** | AIR violations detected: Free Form Text 0.606, Native Hawaiian 0.787, American Indian 0.800; Black women 65% vs. White men 88% | [`notebooks/03_model_audit.ipynb#Q3`](notebooks/03_model_audit.ipynb#Q3) | COMPLETE |
+| **Q4** | **What mitigations were tried and did they work?** | Threshold adjustment (0.20) remediates AIR to ≥0.80; Feature removal deferred; 5 residual risks named | [`notebooks/03_model_audit.ipynb#Q4`](notebooks/03_model_audit.ipynb#Q4) | COMPLETE |
+| **Q5** | **Should this model be deployed?** | **DEPLOY WITH CONDITIONS** (threshold 0.20, monitoring, GitHub governance); 6 shutdown triggers defined | [`notebooks/03_model_audit.ipynb#Q5`](notebooks/03_model_audit.ipynb#Q5) | **COMPLETE** |
 
 **Full Audit Notebook:** [`notebooks/03_model_audit.ipynb`](notebooks/03_model_audit.ipynb) — 33 cells, all executed; ~1758 lines of evidence, analysis, and governance framework
 
@@ -363,20 +374,20 @@ The GitHub repository serves as the **canonical audit record** for regulatory ex
 
 **Setup for Production Deployment:**
 1. Create GitHub organization: `responsible-lending/`
-2. Create repository: `responsible-lending/hmda-capstone-audit`
+2. Create repository: `boratonAJ/Group_5_CapStone_Final_Project`
 3. Push this project with standardized commit tags:
    ```bash
    git tag audit-v1.0-2026-05-05
    git push origin main --tags
    ```
 4. Enable branch protection on `main`: Require ≥2 approvals before merge
-5. Commit monthly monitoring logs to `monitoring/monthly_air.csv`:
+6. Commit monthly monitoring logs to `monitoring/monthly_air.csv`:
    ```
    Updated each month with:
    - AIR by race, sex, ethnicity
    - Approval rates by group
    - FPR, FNR by group
-   - Alert status (✓ GREEN / ⚠️ YELLOW / ❌ RED)
+   - Alert status (GREEN / WARNING / CRITICAL)
    ```
 6. Annual retraining reports linked in README:
    ```
@@ -385,14 +396,14 @@ The GitHub repository serves as the **canonical audit record** for regulatory ex
    ```
 
 **Examiner Access:**
-- GitHub Link: `https://github.com/responsible-lending/hmda-capstone-audit`
+- GitHub Link: `https://github.com/boratonAJ/Group_5_CapStone_Final_Project`
 - README provides links to all audit artifacts
 - Monthly monitoring commits create audit trail of ECOA compliance
 - Tags mark model versions: `audit-v1.0-[DATE]`
 
 ---
 
-## ✅ Verification Checklist (For Judges/Examiners)
+## Verification Checklist (For Judges/Examiners)
 
 Before approving this model for deployment, verify:
 
@@ -442,7 +453,7 @@ Before approving this model for deployment, verify:
 - [ ] Legal review sign-off on file
 - [ ] Threshold 0.20 implemented in production scoring engine
 - [ ] Monitoring infrastructure deployed (monthly AIR dashboard)
-- [ ] GitHub repository set up with audit trail (`responsible-lending/hmda-capstone-audit`)
+- [ ] GitHub repository set up with audit trail (`boratonAJ/Group_5_CapStone_Final_Project`)
 - [ ] Decision-maker roles assigned for 6 shutdown triggers
 - [ ] Loan officer training completed before go-live
 
@@ -486,4 +497,4 @@ All required evidence is cataloged in **[Five Capstone Questions — Q1–Q5 Aud
 
 ## License
 
-[INSERT LICENSE — MIT or Apache 2.0 recommended]
+This project is licensed under the [MIT License](LICENSE).

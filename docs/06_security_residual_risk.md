@@ -10,7 +10,7 @@
 
 ## 1. Threat Actor Framework
 
-A deployed HMDA scoring model operates in an adversarial environment. Unlike a generic ML system, an HMDA-linked model sits at the intersection of financial incentives, consumer rights, and regulatory scrutiny. The following categories of threat actors are relevant:
+We treat a deployed HMDA scoring model as an adversarial system. Unlike a generic ML system, an HMDA-linked model sits at the intersection of financial incentives, consumer rights, and regulatory scrutiny. The following categories of threat actors are relevant:
 
 | Threat Actor | Motivation | Capability | Entry Point |
 |---|---|---|---|
@@ -37,7 +37,7 @@ A deployed HMDA scoring model operates in an adversarial environment. Unlike a g
 
 ## 3. Gaming / Input Manipulation Detail (T-01)
 
-The most realistic near-term threat is field-level gaming by mortgage brokers. HMDA-reportable fields that feed the model include:
+We identify field-level gaming by mortgage brokers as the most realistic near-term threat. HMDA-reportable fields that feed the model include:
 
 - `income` (stated by applicant; broker can coach)
 - `debt_to_income_ratio` (derived from stated income and debt; inflatable)
@@ -46,7 +46,7 @@ The most realistic near-term threat is field-level gaming by mortgage brokers. H
 
 Brokers who learn which fields most strongly influence the model score (via SHAP or published guidance) can coach applicants to optimize their inputs. This produces applications that score well but do not reflect underlying credit risk.
 
-**Compounding fair-lending concern:** If gaming behavior is concentrated in majority-group broker channels but not minority-group channels (due to information asymmetry), gaming could *increase* AI approval rates in ways that inadvertently improve or worsen AIR depending on the direction.
+**Compounding fair-lending concern:** If gaming behavior is concentrated in majority-group broker channels but not minority-group channels (due to information asymmetry), gaming could *increase* approval rates in ways that inadvertently improve or worsen AIR depending on the direction.
 
 **Mitigations:**
 1. Income and DTI plausibility checks against third-party verification data (IRS transcripts, credit bureau).
@@ -57,7 +57,7 @@ Brokers who learn which fields most strongly influence the model score (via SHAP
 
 ## 4. Poisoning Resistance
 
-If the model is retrained periodically using new HMDA LAR data, a third-party vendor supplying ACS or census-tract features could introduce systematic bias into geographic variables. Because census-tract features carry elevated proxy risk for race, corrupting those features during retraining could shift the model's disparate impact characteristics without triggering performance-level alerts.
+If we retrain the model periodically using new HMDA LAR data, a third-party vendor supplying ACS or census-tract features could introduce systematic bias into geographic variables. Because census-tract features carry elevated proxy risk for race, corrupting those features during retraining could shift the model's disparate impact characteristics without triggering performance-level alerts.
 
 **Why PSI alone is insufficient:** PSI detects distribution shift, but a systematically biased (internally consistent) dataset may have low PSI while encoding a new racial bias pattern.
 
@@ -75,13 +75,13 @@ The following access-control matrix defines minimum required access controls for
 
 | Role | Train Model | Score Application | View Raw Features | View Prediction Score | View Protected Attributes | View Model Weights | Modify Training Data |
 |---|---|---|---|---|---|---|---|
-| Data Engineer | ✓ (pipeline only) | ✗ | ✓ | ✗ | Masked | ✗ | ✓ (with audit trail) |
-| ML Engineer | ✓ | ✓ (test/staging) | ✓ | ✓ | Masked | ✓ (read) | ✓ (with 4-eyes) |
-| Underwriter | ✗ | View output only | ✗ | Binary only (approve/deny) | ✗ | ✗ | ✗ |
-| Compliance Officer | ✗ | ✗ | Aggregated reports | ✓ (aggregate) | ✓ (aggregate) | ✗ | ✗ |
-| Model Risk Officer | ✗ (audit only) | ✓ (validation testing) | ✓ | ✓ | ✓ (for validation) | ✓ (read) | ✗ |
-| External Auditor | ✗ | ✗ | Aggregated only | Aggregated only | ✓ (aggregate) | ✗ | ✗ |
-| Applicant | ✗ | ✗ | Own record only | Denial reason (legally required) | Own record only | ✗ | ✗ |
+| Data Engineer | YES (pipeline only) | NO | YES | NO | Masked | NO | YES (with audit trail) |
+| ML Engineer | YES | YES (test/staging) | YES | YES | Masked | YES (read) | YES (with 4-eyes) |
+| Underwriter | NO | View output only | NO | Binary only (approve/deny) | NO | NO | NO |
+| Compliance Officer | NO | NO | Aggregated reports | YES (aggregate) | YES (aggregate) | NO | NO |
+| Model Risk Officer | NO (audit only) | YES (validation testing) | YES | YES | YES (for validation) | YES (read) | NO |
+| External Auditor | NO | NO | Aggregated only | Aggregated only | YES (aggregate) | NO | NO |
+| Applicant | NO | NO | Own record only | Denial reason (legally required) | Own record only | NO | NO |
 
 **Key control principles:**
 - Protected attribute data must never be exposed to scoring-role users who could use it in real-time decisions.
@@ -106,8 +106,8 @@ The three most plausible adversarial failure modes for a deployed HMDA scoring s
 
 See `docs/residual_risk_register.md` for the full register. The following risks are specifically attributable to the security threat landscape:
 
-- **RR-004** (Broker gaming): Open; mitigations recommended but not implemented in this audit.
-- **RR-006** (Vendor data poisoning): Open; hash validation required before any retraining.
+- **RR-004** (Broker gaming): Open; we recommend mitigations, but they are not implemented in this audit.
+- **RR-006** (Vendor data poisoning): Open; hash validation is required before any retraining.
 - **RR-007** (Protected attribute capture at scoring): Conditional on deployment architecture.
 
 These risks are acceptable for initial deployment only if the deployment conditions in `docs/07_deployment_recommendation.md` are satisfied.

@@ -1,0 +1,36 @@
+race,sex,n,approval_rate,fpr,fnr
+2 or more minority races,Sex Not Available,63,0.1746,0.0606,0.7
+Free Form Text Only,Female,68,0.3235,0.1053,0.4
+Free Form Text Only,Male,134,0.3731,0.2874,0.4681
+Free Form Text Only,Joint,70,0.4286,0.2647,0.4167
+Native Hawaiian or Other Pacific Islander,Female,689,0.4369,0.205,0.3656
+American Indian or Alaska Native,Female,2810,0.4416,0.1527,0.3555
+American Indian or Alaska Native,Sex Not Available,94,0.4574,0.1026,0.2909
+Native Hawaiian or Other Pacific Islander,Sex Not Available,30,0.4667,0.2857,0.375
+Black or African American,Sex Not Available,694,0.4798,0.2353,0.3457
+Native Hawaiian or Other Pacific Islander,Male,1333,0.4861,0.2407,0.3468
+Black or African American,Female,45724,0.4947,0.2159,0.3268
+American Indian or Alaska Native,Male,4332,0.5125,0.2075,0.3071
+2 or more minority races,Female,1026,0.5234,0.2136,0.2567
+Black or African American,Male,41235,0.5274,0.2613,0.3166
+White,Female,179504,0.5302,0.1938,0.3491
+Race Not Available,Female,25200,0.5348,0.2162,0.2972
+White,Sex Not Available,3096,0.5478,0.2207,0.3326
+2 or more minority races,Male,1364,0.5667,0.2524,0.2378
+Native Hawaiian or Other Pacific Islander,Joint,593,0.5801,0.2687,0.2602
+Race Not Available,Male,42630,0.586,0.2584,0.2659
+White,Male,284703,0.6015,0.2559,0.2882
+American Indian or Alaska Native,Joint,1218,0.6092,0.2581,0.2172
+Joint,Sex Not Available,100,0.61,0.2759,0.2535
+Black or African American,Joint,21964,0.6289,0.3269,0.2323
+Race Not Available,Sex Not Available,100180,0.6456,0.2924,0.2286
+2 or more minority races,Joint,487,0.6776,0.3677,0.1777
+Asian,Sex Not Available,364,0.7005,0.2475,0.1255
+Race Not Available,Joint,31914,0.7052,0.3417,0.1923
+White,Joint,312933,0.7091,0.3331,0.2156
+Joint,Female,771,0.716,0.3557,0.1629
+Asian,Female,14103,0.7166,0.3282,0.1631
+Joint,Joint,23053,0.7245,0.3268,0.1791
+Asian,Male,28342,0.7603,0.3773,0.1304
+Joint,Male,859,0.8102,0.4795,0.1076
+Asian,Joint,18396,0.8199,0.4577,0.1004

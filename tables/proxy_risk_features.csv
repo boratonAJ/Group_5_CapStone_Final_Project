@@ -1,0 +1,10 @@
+feature,risk_level,justification
+census_tract,High,Census tract encodes residential segregation patterns. Highly correlated with race/ethnicity due to historical redlining. Treat as High proxy risk; monitor SHAP rank and correlation.
+tract_minority_population_percent,High,Direct demographic encoding of tract-level minority share. Near-perfect proxy for race if used as a continuous feature.
+derived_msa_md,Medium,MSA/MD encodes regional income and demographic composition. Correlated with race/ethnicity due to geographic sorting.
+ffiec_msa_md_median_family_income,Medium,Tract-level income reflects structural income inequality. Correlated with race; use with caution.
+tract_to_msa_income_percentage,Medium,Relative income of tract vs. MSA; encodes neighborhood affluence which correlates with racial composition.
+income,Medium,Applicant income is a legitimate creditworthiness indicator but correlates with race due to structural inequity. Retained; monitored.
+applicant_age,Low,Age is a protected attribute under ECOA. Monitor model reliance.
+state_code,Medium,State encodes regional demographic composition. May proxy for race in some contexts.
+county_code,Medium,County-level demographic encoding similar to MSA.

@@ -1,0 +1,9 @@
+Step,Row Count,Positive Rate,Notes
+1. Raw HMDA LAR rows,12259151,,Raw HMDA 2024 LAR
+"2. action_taken in {1,2,3} (after label filter)",8661773,0.757,"Dropped 3,597,378 rows with action_taken in {4,5,6,7,8}"
+3. Leakage features removed (same rows),8661773,0.757,Removed 56 post-decision features
+4. Feature matrix built,8661773,,Feature engineering applied
+5. Train split (70%),5553702,0.758,Stratified by y
+6. Validation split (15%),1190079,0.758,Stratified by y
+7. Test split (15%),1190080,0.758,Stratified by y
+8. Geographic holdout (CA),727912,0.752,State = CA — geographic drift test set

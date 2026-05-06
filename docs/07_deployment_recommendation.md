@@ -11,11 +11,11 @@
 
 ## Summary Recommendation
 
-> **✅ DEPLOY WITH CONDITIONS**
+> **DEPLOY WITH CONDITIONS**
 >
-> The GBM model achieves AUC 0.8127 (test) with identified fairness violations remediable via threshold adjustment to 0.20, which achieves AIR ≥ 0.80 across all protected groups. Deployment is recommended contingent on: (1) threshold implementation (0.20 in production), (2) board approval for updated loan loss reserve (+2-5%), (3) monthly AIR monitoring infrastructure, (4) GitHub audit record as governance artifact, and (5) six explicitly named model shutdown triggers with designated decision makers.
+> We recommend deployment because the GBM model achieves AUC 0.8127 (test) and the identified fairness violations are remediable via threshold adjustment to 0.20, which achieves AIR ≥ 0.80 across all protected groups. Deployment remains contingent on: (1) threshold implementation (0.20 in production), (2) board approval for updated loan loss reserve (+2-5%), (3) monthly AIR monitoring infrastructure, (4) a GitHub audit record as a governance artifact, and (5) six explicitly named model shutdown triggers with designated decision makers.
 
-This recommendation is based on evidence gathered across Q1–Q5 following the Lecture 06 defensibility framework: documented objective (Q1), measured disparities (Q3), tested mitigations (Q4), named residual risks (Q4), and a governance plan with monitoring triggers (Q5). It is not a statement that the model is perfect — it is a statement that the evidence is sufficient to support responsible deployment **within defined safeguards**, and that named conditions must be enforced before any production use.
+This recommendation is based on evidence gathered across Q1–Q5 following the Lecture 06 defensibility framework: a documented objective (Q1), measured disparities (Q3), tested mitigations (Q4), named residual risks (Q4), and a governance plan with monitoring triggers (Q5). It is not a statement that the model is perfect. It is a statement that the evidence is sufficient to support responsible deployment **within defined safeguards**, and that the named conditions must be enforced before any production use.
 
 ---
 
@@ -23,22 +23,22 @@ This recommendation is based on evidence gathered across Q1–Q5 following the L
 
 | Dimension | Key Finding | Score | Evidence Source |
 |---|---|---|---|
-| **Q1: Optimization Objective** | F1 @ threshold 0.2575 (F1 = 0.8861); trade-offs: +35% approval gap for minorities | 🟡 YELLOW | [`notebooks/03_model_audit.ipynb#Q1`](../notebooks/03_model_audit.ipynb#Q1) |
-| **Performance (GBM vs. LR)** | GBM AUC 0.8127 vs. LR 0.7442; model substantially more predictive than baseline | 🟢 GREEN | [`notebooks/02_modeling.ipynb`](../notebooks/02_modeling.ipynb) |
-| **Q3: Fairness — AIR** | AIR range 0.606–1.000; 3 violations (Free Form Text 0.606, Hawaiian 0.787, Indian 0.800) | 🔴 RED | [`notebooks/03_model_audit.ipynb#Q3`](../notebooks/03_model_audit.ipynb#Q3) |
-| **Q3: Fairness — Intersectional** | Black × Female 65% approval vs. White × Male 88%; 23% gap; intersectional harm most severe | 🔴 RED | [`notebooks/03_model_audit.ipynb#Q3`](../notebooks/03_model_audit.ipynb#Q3) |
-| **Q4: Mitigation Tested** | Threshold 0.20 remediates AIR to ≥0.80; trade-off: FPR +15-25%, approval 62.8%→91.3% | 🟢 GREEN | [`notebooks/03_model_audit.ipynb#Q4`](../notebooks/03_model_audit.ipynb#Q4) |
-| **Q4: Residual Risks Named** | 5 specific risks identified: power loss, correlated features, data quality, drift, intersectional | 🟢 GREEN | [`tables/audit_residual_risks.csv`](../tables/audit_residual_risks.csv) |
-| **Q5: Governance & Monitoring** | 6 shutdown triggers defined; GitHub record setup; monthly AIR audits; annual retraining | 🟢 GREEN | [`notebooks/03_model_audit.ipynb#Q5`](../notebooks/03_model_audit.ipynb#Q5) |
-| **Documentation** | System card, model card, decision log, risk register, deployment recommendation complete | 🟢 GREEN | [`docs/`](.) |
+| **Q1: Optimization Objective** | F1 @ threshold 0.2575 (F1 = 0.8861); trade-offs: +35% approval gap for minorities | **YELLOW** | [`notebooks/03_model_audit.ipynb#Q1`](../notebooks/03_model_audit.ipynb#Q1) |
+| **Performance (GBM vs. LR)** | GBM AUC 0.8127 vs. LR 0.7442; model substantially more predictive than baseline | **GREEN** | [`notebooks/02_modeling.ipynb`](../notebooks/02_modeling.ipynb) |
+| **Q3: Fairness — AIR** | AIR range 0.606–1.000; 3 violations (Free Form Text 0.606, Hawaiian 0.787, Indian 0.800) | **RED** | [`notebooks/03_model_audit.ipynb#Q3`](../notebooks/03_model_audit.ipynb#Q3) |
+| **Q3: Fairness — Intersectional** | Black × Female 65% approval vs. White × Male 88%; 23% gap; intersectional harm most severe | **RED** | [`notebooks/03_model_audit.ipynb#Q3`](../notebooks/03_model_audit.ipynb#Q3) |
+| **Q4: Mitigation Tested** | Threshold 0.20 remediates AIR to ≥0.80; trade-off: FPR +15-25%, approval 62.8%→91.3% | **GREEN** | [`notebooks/03_model_audit.ipynb#Q4`](../notebooks/03_model_audit.ipynb#Q4) |
+| **Q4: Residual Risks Named** | 5 specific risks identified: power loss, correlated features, data quality, drift, intersectional | **GREEN** | [`tables/audit_residual_risks.csv`](../tables/audit_residual_risks.csv) |
+| **Q5: Governance & Monitoring** | 6 shutdown triggers defined; GitHub record setup; monthly AIR audits; annual retraining | **GREEN** | [`notebooks/03_model_audit.ipynb#Q5`](../notebooks/03_model_audit.ipynb#Q5) |
+| **Documentation** | System card, model card, decision log, risk register, deployment recommendation complete | **GREEN** | [`docs/`](.) |
 
 **Score summary:** 4 Green / 1 Yellow / 2 Red (in Fairness dimensions, but remediable via threshold adjustment + monitoring)
 
 **Decision rule applied:** "Mostly Green with Red in Fairness but documented mitigations → **Deploy with conditions**"
-- ✓ Fairness violations are measurable and remediable (threshold adjustment)
-- ✓ Mitigations tested and quantified (AIR improved to ≥0.80)
-- ✓ Residual risks explicitly named and monitored (5 risks, 6 shutdown triggers)
-- ✓ Conditions documented and enforceable (monitoring infrastructure, GitHub audit record)
+- Fairness violations are measurable and remediable (threshold adjustment)
+- Mitigations tested and quantified (AIR improved to ≥0.80)
+- Residual risks explicitly named and monitored (5 risks, 6 shutdown triggers)
+- Conditions documented and enforceable (monitoring infrastructure, GitHub audit record)
 
 ---
 
@@ -46,13 +46,13 @@ This recommendation is based on evidence gathered across Q1–Q5 following the L
 
 ### Q1 — Optimization Objective (YELLOW)
 
-The model optimizes for **F1 score at threshold 0.2575**, achieving F1 = 0.8861 on test set. This balances lender precision (minimize default losses) with approval volume (business growth). However, this objective has documented trade-offs:
+We optimize for **F1 score at threshold 0.2575**, achieving F1 = 0.8861 on the test set. This balances lender precision (minimize default losses) with approval volume (business growth). However, this objective has documented trade-offs:
 
 - **Benefits lenders:** GBM outperforms LR baseline (AUC 0.8127 vs. 0.7442); high precision minimizes defaults
 - **Harms minorities:** 38.2% approval gap by race; Free Form Text applicants 24.7% vs. White 62.8%
 - **Harms low-risk applicants:** ~129K estimated wrongful denials of low-risk (low-default-probability) applicants
 
-This is appropriate transparency: the objective is clearly stated, its beneficiaries named, and its harms quantified. Deployment at this threshold is **NOT recommended** due to fairness violations in Q3.
+This is appropriate transparency: the objective is clearly stated, its beneficiaries are named, and its harms are quantified. Deployment at this threshold is **NOT recommended** due to fairness violations in Q3.
 
 **Evidence:** [`notebooks/03_model_audit.ipynb#Q1`](../notebooks/03_model_audit.ipynb#Q1), [`tables/metrics_table_final.csv`](../tables/metrics_table_final.csv)
 
@@ -76,20 +76,20 @@ This evidence is a clear fairness violation under ECOA (Equal Credit Opportunity
 
 ### Q4 — Mitigation #1: Threshold Adjustment (GREEN)
 
-**Strategy:** Raise prediction threshold from 0.50 → **0.20** to achieve demographic parity (equalize approval rates).
+**Strategy:** We raise the prediction threshold from 0.50 → **0.20** to achieve demographic parity (equalize approval rates).
 
 **Results:**
-- Free Form Text: AIR 0.606 → **0.82** ✓ (passes 80% rule)
-- Native Hawaiian: AIR 0.787 → **0.85** ✓
-- American Indian: AIR 0.800 → **0.82** ✓
-- All protected groups: AIR ≥ 0.80 ✓
+- Free Form Text: AIR 0.606 → **0.82** (passes 80% rule)
+- Native Hawaiian: AIR 0.787 → **0.85**
+- American Indian: AIR 0.800 → **0.82**
+- All protected groups: AIR ≥ 0.80
 
 **Trade-off (acceptable with conditions):**
 - Overall approval rate: 62.8% → 91.3% (lenders approve more borderline applicants)
 - Lender false positive rate (FPR) among approved: increases from baseline to **19.1%** (+15-25% estimated)
 - Model predictive power: AUC remains ~0.81; F1 remains ~0.89 (acceptable trade-off)
 
-**Justification:** Raising threshold favors approval, which disproportionately helps protected groups in the borderline region (where they're overrepresented in rejection). This achieves the ECOA objective: equal treatment under law.
+**Justification:** Raising the threshold favors approval, which disproportionately helps protected groups in the borderline region (where they are overrepresented in rejection). This achieves the ECOA objective: equal treatment under law.
 
 **Evidence:** [`tables/audit_mitigation_threshold_adjustment.csv`](../tables/audit_mitigation_threshold_adjustment.csv), [`figures/audit_before_after_mitigation.png`](../figures/audit_before_after_mitigation.png)
 
@@ -123,11 +123,11 @@ Even after mitigation, 5 specific residual risks remain. They are accepted **wit
 
 **Deployment requires:**
 
-1. ✅ **Threshold Implementation:** Deploy 0.20 in production; document ECOA business justification
-2. ✅ **Risk Appetite Board Approval:** Authorize +2-5% loan loss reserve increase
-3. ✅ **Monitoring Infrastructure:** Real-time AIR dashboard; monthly audits; automated alerts if AIR < 0.75
-4. ✅ **GitHub Audit Record:** Repository as canonical governance artifact; branch protection; monthly monitoring logs committed
-5. ✅ **Stakeholder Alignment:** Legal/compliance sign-off; loan officer training; risk committee briefing
+1. **Threshold Implementation:** Deploy 0.20 in production; document ECOA business justification
+2. **Risk Appetite Board Approval:** Authorize +2-5% loan loss reserve increase
+3. **Monitoring Infrastructure:** Real-time AIR dashboard; monthly audits; automated alerts if AIR < 0.75
+4. **GitHub Audit Record:** Repository as canonical governance artifact; branch protection; monthly monitoring logs committed
+5. **Stakeholder Alignment:** Legal/compliance sign-off; loan officer training; risk committee briefing
 
 **Shutdown Triggers (6 escalation paths):**
 | Trigger | Threshold | Response | Decision Maker |
@@ -165,7 +165,7 @@ Even after mitigation, 5 specific residual risks remain. They are accepted **wit
 - Annual AUC recomputation on held-out test data
 
 **CONDITION 4: GitHub Audit Record Setup**
-- Repository: `responsible-lending/hmda-capstone-audit` on GitHub organization account
+- Repository: `boratonAJ/Group_5_CapStone_Final_Project` on GitHub
 - Branch protection: `main` requires ≥2 approvals before merge
 - Standardized commit tags: `audit-v1.0-2026-05-05` (version + date)
 - Monthly monitoring logs committed: `monitoring/monthly_air.csv` updated each month
@@ -215,15 +215,15 @@ The following risks are accepted. They define the boundary conditions of deploym
 
 ---
 
-## Summary: DEPLOY WITH CONDITIONS ✅
+## Summary: DEPLOY WITH CONDITIONS
 
 **This model is defensible for deployment because:**
 
-1. ✅ Objective is transparent (Q1): F1 optimization with acknowledged trade-offs
-2. ✅ Disparities are measured and quantified (Q3): AIR violations explicitly identified
-3. ✅ Mitigations are tested and effective (Q4): Threshold adjustment remediates violations; AIR ≥ 0.80
-4. ✅ Residual risks are named and monitored (Q4–Q5): 5 risks with monitoring conditions; 6 shutdown triggers
-5. ✅ Governance is explicit (Q5): GitHub audit record, monthly monitoring, annual retraining, decision-maker roles
+1. Objective is transparent (Q1): F1 optimization with acknowledged trade-offs
+2. Disparities are measured and quantified (Q3): AIR violations explicitly identified
+3. Mitigations are tested and effective (Q4): Threshold adjustment remediates violations; AIR ≥ 0.80
+4. Residual risks are named and monitored (Q4–Q5): 5 risks with monitoring conditions; 6 shutdown triggers
+5. Governance is explicit (Q5): GitHub audit record, monthly monitoring, annual retraining, decision-maker roles
 
 **Deployment is NOT defensible if any condition is unmet.** Failure to implement monitoring, GitHub record, or threshold in production = failure to uphold fair-lending standard.
 
@@ -234,7 +234,7 @@ The following risks are accepted. They define the boundary conditions of deploym
 **Recommendation prepared:** May 5, 2026  
 **Model version:** GBM v20260505  
 **Threshold:** 0.20 (demographic parity optimized)  
-**Status:** ✅ READY FOR CONDITIONAL DEPLOYMENT
+**Status:** **READY FOR CONDITIONAL DEPLOYMENT**
 
 ---
 

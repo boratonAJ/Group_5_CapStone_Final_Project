@@ -1,0 +1,28 @@
+
+RECOMMENDATION: DEPLOY WITH CONDITIONS ✓
+
+Evidence Chain (Q1→Q5):
+
+Q1 OBJECTIVE: Model optimizes for F1 score
+  ├─ Metric: F1 = 0.8861 @ threshold 0.2575
+  ├─ Rationale: Balance lender precision + volume
+  └─ Trade-off: Harms minorities & low-risk applicants
+
+Q3 DISPARITIES: Measurable across protected groups
+  ├─ AIR violations: Free Form Text (0.606), Native Hawaiian (0.787), American Indian (0.800)
+  ├─ Intersectional harm: Black women 65% approval vs. White men 88%
+  └─ Quantified impact: 38.2% approval gap by race
+
+Q4 MITIGATION: Threshold adjustment remediates AIR violations
+  ├─ Alternative threshold: 0.20 achieves AIR ≥ 0.80 across all groups
+  ├─ Trade-off: Lender FPR increases +15-25%; AUC remains ~0.81
+  ├─ Residual risks: Named (5), quantified, assigned monitoring
+  └─ Acceptance conditions: Documented & stakeholder-approved
+
+Q5 GOVERNANCE: Deployment defensible with conditions & triggers
+  ├─ Mandatory conditions: Threshold (0.20), monitoring infrastructure, GitHub audit record
+  ├─ Shutdown triggers: 6 escalation paths (regulatory, AIR collapse, drift, etc.)
+  ├─ Roles/responsibilities: CRO, Compliance, Risk Committee, Data Science
+  └─ Audit trail: GitHub repo as canonical record for examiner requests
+
+DEPLOYMENT STATUS: READY FOR CONDITIONAL APPROVAL ✓

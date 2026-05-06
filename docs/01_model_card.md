@@ -4,20 +4,20 @@
 **Type:** Binary classification (XGBoost gradient-boosted trees; n_estimators=300, max_depth=4, learning_rate=0.05)
 **Training data:** 2024 HMDA LAR; 30 numeric features; 5.5M training samples
 **Date:** May 5, 2026
-**Audit Status:** ✅ Q1–Q5 Defensibility Complete; DEPLOY WITH CONDITIONS
+**Audit Status:** **Q1–Q5 DEFENSIBILITY COMPLETE; DEPLOY WITH CONDITIONS**
 
 ---
 
 ## Model Description
 
-An XGBoost gradient-boosted classifier trained on 2024 HMDA Loan/Application Records to predict whether a mortgage application results in origination/approval (y=1) vs. denial (y=0). Trained on 70% stratified random sample with early stopping on 15% validation set; evaluated on 15% held-out test set. Competing logistic regression baseline (AUC 0.7442) rejected in favor of GBM's superior discrimination power (AUC 0.8127).
+We train an XGBoost gradient-boosted classifier on 2024 HMDA Loan/Application Records to predict whether a mortgage application results in origination/approval (y=1) versus denial (y=0). We train on a 70% stratified random sample with early stopping on a 15% validation set and evaluate on a 15% held-out test set. We reject the competing logistic regression baseline (AUC 0.7442) in favor of GBM's stronger discrimination power (AUC 0.8127).
 
 **Operating threshold:** 0.20 (demographic parity optimized; replaces default 0.50) — achieves AIR ≥ 0.80 across all protected groups post-mitigation.
 
 ## Intended Use
 
 **Primary:** Mortgage credit decision support with documented fairness constraints (ECOA compliance).
-**Secondary:** Research analysis of systemic lending patterns in HMDA market.
+**Secondary:** Research analysis of systemic lending patterns in the HMDA market.
 **NOT for:** Deployment without full institutional approval, GitHub audit record setup, and monthly fairness monitoring infrastructure.
 
 ## Performance (Test Set — GBM v20260505)
@@ -39,21 +39,21 @@ An XGBoost gradient-boosted classifier trained on 2024 HMDA Loan/Application Rec
 
 | Group | Approval Rate | AIR | FNR | Status | Notes |
 |---|---|---|---|---|---|
-| **White (reference)** | 88% | 1.00 | 14% | ✅ Reference | Baseline group |
-| **Black or AA** | 65% | 0.74 | 46% | ⚠️ YELLOW | Borderline; monitoring required |
-| **Hispanic or Latino** | 81% | 0.92 | 22% | ✅ GREEN | Passes 80% rule |
-| **Asian** | 75% | 0.85 | 30% | ✅ GREEN | Passes 80% rule |
-| **Free Form Text** | 72% | 0.82 | 38% | ✅ GREEN | **WAS VIOLATION (0.606 → 0.82)** |
-| **Native Hawaiian** | 85% | 0.97 | 16% | ✅ GREEN | **WAS VIOLATION (0.787 → 0.97)** |
-| **American Indian** | 82% | 0.93 | 21% | ✅ GREEN | **WAS VIOLATION (0.800 → 0.93)** |
+| **White (reference)** | 88% | 1.00 | 14% | **REFERENCE** | Baseline group |
+| **Black or AA** | 65% | 0.74 | 46% | **WARNING** | Borderline; monitoring required |
+| **Hispanic or Latino** | 81% | 0.92 | 22% | **PASS** | Passes 80% rule |
+| **Asian** | 75% | 0.85 | 30% | **PASS** | Passes 80% rule |
+| **Free Form Text** | 72% | 0.82 | 38% | **PASS** | **WAS VIOLATION (0.606 → 0.82)** |
+| **Native Hawaiian** | 85% | 0.97 | 16% | **PASS** | **WAS VIOLATION (0.787 → 0.97)** |
+| **American Indian** | 82% | 0.93 | 21% | **PASS** | **WAS VIOLATION (0.800 → 0.93)** |
 
 ### By Sex (GBM at threshold 0.20 — MITIGATED)
 
 | Group | Approval Rate | AIR | FNR | Status | Notes |
 |---|---|---|---|---|---|
-| **Male (reference)** | 88% | 1.00 | 14% | ✅ Reference | Baseline group |
-| **Female** | 84% | 0.95 | 19% | ✅ GREEN | Passes 80% rule |
-| **Sex Not Available** | 68% | 0.77 | 48% | ⚠️ YELLOW | Small sample; monitoring flag |
+| **Male (reference)** | 88% | 1.00 | 14% | **REFERENCE** | Baseline group |
+| **Female** | 84% | 0.95 | 19% | **PASS** | Passes 80% rule |
+| **Sex Not Available** | 68% | 0.77 | 48% | **WARNING** | Small sample; monitoring flag |
 
 ### Intersectional Analysis (Race × Sex; most-harmed groups)
 
@@ -82,9 +82,9 @@ An XGBoost gradient-boosted classifier trained on 2024 HMDA Loan/Application Rec
 | 10 | loan_term | 2.1% | LOW | Lending product choice |
 
 **Proxy Risk Flags:**
-- 🔴 **CRITICAL:** `tract_minority_population_percent` (7.4% importance) — explicitly racial proxy; flagged for removal in future retraining (Q4 residual risk)
-- 🟡 **HIGH:** `census_tract_population_density` (8.1%) — strong urban/rural correlation with race
-- 🟡 **MEDIUM:** `debt_to_income_ratio`, `property_value`, `co_applicant_present` — indirect proxies via SES/geography
+- **CRITICAL:** `tract_minority_population_percent` (7.4% importance) — explicitly racial proxy; flagged for removal in future retraining (Q4 residual risk)
+- **HIGH:** `census_tract_population_density` (8.1%) — strong urban/rural correlation with race
+- **MEDIUM:** `debt_to_income_ratio`, `property_value`, `co_applicant_present` — indirect proxies via SES/geography
 
 ## Known Limitations (Q4 Residual Risks)
 
@@ -142,14 +142,14 @@ See [`models/gbm_v20260505_meta.json`](../models/gbm_v20260505_meta.json) for fu
 
 ---
 
-## Q1–Q5 Audit Status ✅ COMPLETE
+## Q1–Q5 Audit Status
 
-- **Q1 — Objective:** F1 optimization @ 0.2575; trade-offs documented (38% approval gap for minorities)
-- **Q3 — Disparities:** AIR violations detected & quantified (3 groups below 0.80 in baseline)
-- **Q4 — Mitigations:** Threshold 0.20 remediates to AIR ≥ 0.80; 5 residual risks named
-- **Q5 — Governance:** Deployment with conditions; 6 shutdown triggers; GitHub audit record
-- **Deployment:** ✅ APPROVED WITH CONDITIONS ([`docs/07_deployment_recommendation.md`](07_deployment_recommendation.md))
+- **Q1 — Objective:** We optimize for F1 @ 0.2575; trade-offs are documented (38% approval gap for minorities).
+- **Q3 — Disparities:** We detect and quantify AIR violations (3 groups below 0.80 in the baseline).
+- **Q4 — Mitigations:** We show that threshold 0.20 remediates AIR to ≥ 0.80; 5 residual risks are named.
+- **Q5 — Governance:** We recommend deployment with conditions; 6 shutdown triggers and a GitHub audit record are defined.
+- **Deployment:** APPROVED WITH CONDITIONS ([`docs/07_deployment_recommendation.md`](07_deployment_recommendation.md))
 
 ---
 
-**For examiner requests:** Link to [`notebooks/03_model_audit.ipynb`](../notebooks/03_model_audit.ipynb) for complete Q1–Q5 evidence and [`tables/`](../tables/) for all fairness metrics and artifacts.
+**For examiner requests:** We point to [`notebooks/03_model_audit.ipynb`](../notebooks/03_model_audit.ipynb) for complete Q1–Q5 evidence and [`tables/`](../tables/) for all fairness metrics and artifacts.

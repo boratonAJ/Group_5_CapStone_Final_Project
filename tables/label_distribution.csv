@@ -1,0 +1,9 @@
+action_taken,count,meaning,label_assigned,retained,pct_of_total
+1,6197088,Loan originated → y=1,1.0,True,0.5055
+2,361225,"Application approved, not accepted → y=1",1.0,True,0.0295
+3,2103460,Application denied → y=0,0.0,True,0.1716
+4,1538268,Application withdrawn by applicant → DROPPED,,False,0.1255
+5,581937,File closed for incompleteness → DROPPED,,False,0.0475
+6,1276504,Purchased loan → DROPPED,,False,0.1041
+7,47313,Preapproval request denied → DROPPED,,False,0.0039
+8,153356,Preapproval request approved but not accepted → DROPPED,,False,0.0125

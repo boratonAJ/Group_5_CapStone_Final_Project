@@ -1,6 +1,6 @@
 # Residual Risk Register — HMDA 2024 Responsible ML Capstone
 
-**Purpose:** Documents all known, open, and accepted residual risks at the time of the deployment recommendation.
+**Purpose:** We document all known, open, and accepted residual risks at the time of the deployment recommendation.
 A risk on this register is not evidence of model failure — it is evidence that risk is known, documented, and owned.
 
 **Severity scale:** High / Medium / Low  
@@ -19,7 +19,7 @@ A risk on this register is not evidence of model failure — it is evidence that
 | RR-006 | Third-party vendor data (census tract, ACS variables) could be corrupted during retraining | Security / Data Integrity | Medium | Low | Threat scenario T-02 in Notebook 06 | Hash validation of external data files; PSI check before retraining | Low | Data Owner | Open |
 | RR-007 | Protected attributes may not be available at scoring time in all deployment contexts | Monitoring Feasibility | High | Medium | Assumption documented in monitoring playbook | Require protected-attr capture at scoring time as deployment condition | Medium — if condition is not enforced, fairness monitoring breaks | Compliance | Conditional |
 | RR-008 | Operating threshold fixed at [THRESHOLD] — may need adjustment if approval-rate benchmarks change | Performance / Fairness | Low | Low | Decision D-007 in decision log | Annual threshold review as part of model validation cycle | Low | ML Engineer | Accepted |
-| RR-009 | "Race/Sex/Ethnicity Not Available" applicants treated as own group; their true protected status is unknown. Also: "Joint" applicants (both applicant and co-applicant demographics combined) cannot be attributed to a single protected group. | Fairness / Data Quality | Medium | Certain | HMDA data limitation documented in system card | Reported as separate groups ("Race Not Available", "Sex Not Available", "Ethnicity Not Available", "Joint"); disparity analysis flagged as incomplete for these segments | Medium — fundamental HMDA data limitation | Fairness Officer | Accepted |
+| RR-009 | "Race/Sex/Ethnicity Not Available" applicants are treated as their own group; their true protected status is unknown. Also, "Joint" applicants (both applicant and co-applicant demographics combined) cannot be attributed to a single protected group. | Fairness / Data Quality | Medium | Certain | HMDA data limitation documented in system card | We report these as separate groups ("Race Not Available", "Sex Not Available", "Ethnicity Not Available", "Joint"); disparity analysis is flagged as incomplete for these segments | Medium — fundamental HMDA data limitation | Fairness Officer | Accepted |
 | RR-010 | DTI reported as string buckets — loses precision at individual level | Model Quality | Low | Certain | Feature engineering note in Notebook 01 | Numeric midpoint imputation; flagged in model card | Low | Modeler | Accepted |
 
 ---
